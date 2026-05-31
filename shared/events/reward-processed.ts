@@ -3,6 +3,7 @@ export interface RewardProcessedEvent {
   eventType: 'RewardProcessed';
   dinnerId: string;
   cardNumber: string;
+  email: string;
   rewardType: 'POINTS' | 'CASHBACK';
   rewardValue: number;
   processedAt: string;

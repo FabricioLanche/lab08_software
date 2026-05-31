@@ -14,6 +14,7 @@ export class RegisterDinnerUseCase {
     const dinner = new Dinner(
       `DINNER-${uuid().slice(0, 8).toUpperCase()}`,
       request.cardNumber,
+      request.email,
       request.restaurantCode,
       request.amount,
       new Date(request.consumedAt)
@@ -26,6 +27,7 @@ export class RegisterDinnerUseCase {
       eventType: 'DinnerRegistered',
       dinnerId: dinner.dinnerId,
       cardNumber: dinner.cardNumber,
+      email: dinner.email,
       restaurantCode: dinner.restaurantCode,
       amount: dinner.amount,
       consumedAt: dinner.consumedAt.toISOString(),

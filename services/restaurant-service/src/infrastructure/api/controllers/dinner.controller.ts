@@ -7,10 +7,10 @@ export class DinnerController {
 
   async registerDinner(req: Request, res: Response): Promise<void> {
     try {
-      const { cardNumber, restaurantCode, amount, consumedAt } = req.body;
+      const { cardNumber, email, restaurantCode, amount, consumedAt } = req.body;
 
-      if (!cardNumber || !restaurantCode || amount == null || !consumedAt) {
-        res.status(400).json({ error: 'Missing required fields: cardNumber, restaurantCode, amount, consumedAt' });
+      if (!cardNumber || !email || !restaurantCode || amount == null || !consumedAt) {
+        res.status(400).json({ error: 'Missing required fields: cardNumber, email, restaurantCode, amount, consumedAt' });
         return;
       }
 
@@ -19,7 +19,7 @@ export class DinnerController {
         return;
       }
 
-      const request: RegisterDinnerRequest = { cardNumber, restaurantCode, amount, consumedAt };
+      const request: RegisterDinnerRequest = { cardNumber, email, restaurantCode, amount, consumedAt };
       const result = await this.registerDinnerUseCase.execute(request);
 
       res.status(201).json(result);

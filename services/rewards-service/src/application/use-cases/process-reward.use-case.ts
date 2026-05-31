@@ -30,6 +30,7 @@ export class ProcessRewardUseCase {
       eventType: 'RewardProcessed',
       dinnerId: event.dinnerId,
       cardNumber: event.cardNumber,
+      email: event.email,
       rewardType: this.rewardStrategy.getType(),
       rewardValue,
       processedAt: reward.processedAt.toISOString(),

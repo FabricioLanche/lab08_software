@@ -1,5 +1,6 @@
 export interface RegisterDinnerRequest {
   cardNumber: string;
+  email: string;
   restaurantCode: string;
   amount: number;
   consumedAt: string;

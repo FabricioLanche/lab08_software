@@ -6,7 +6,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts",
-    "test": "jest --coverage --forceExit",
+    "test": "jest --coverage --forceExit --silent",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

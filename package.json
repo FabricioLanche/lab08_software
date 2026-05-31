@@ -7,10 +7,18 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces",
-    "test": "npm run test --workspaces --if-present",
-    "lint": "npm run lint --workspaces --if-present"
+    "test": "npm run test --workspaces --if-present && node scripts/normalize-lcov.js",
+    "lint": "npm run lint --workspaces --if-present",
+    "dev": "concurrently -n rest,reward,notif -c blue,green,yellow \"cross-env PORT=3001 npm start -w services/restaurant-service\" \"cross-env PORT=3002 npm start -w services/rewards-service\" \"npm start -w services/notification-service\"",
+    "sonar": "npm test && sonar-scanner"
   },
   "devDependencies": {
+    "concurrently": "^10.0.0",
+    "cross-env": "^10.1.0",
+    "sonarqube-scanner": "^4.3.6",
     "typescript": "^5.4.0"
+  },
+  "dependencies": {
+    "nodemailer": "^8.0.10"
   }
 }

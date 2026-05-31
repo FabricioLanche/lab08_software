@@ -10,6 +10,7 @@ import { PointsStrategy } from '../../domain/strategies/reward-strategy';
 
 export async function createApp(amqpUrl?: string) {
   const app = express();
+  app.disable('x-powered-by');
   app.use(express.json());
 
   const url = amqpUrl || process.env.AMQP_URL || 'amqp://students:Ut3c2026@213.199.42.57:5672';

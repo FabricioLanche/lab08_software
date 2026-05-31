@@ -4,7 +4,7 @@ import { Dinner } from '../../src/domain/entities/dinner';
 describe('InMemoryDinnerRepository', () => {
   it('should save and find a dinner by id', async () => {
     const repo = new InMemoryDinnerRepository();
-    const dinner = new Dinner('DINNER-001', '123', 'REST01', 100, new Date());
+    const dinner = new Dinner('DINNER-001', '123', 'test@example.com', 'REST01', 100, new Date());
 
     await repo.save(dinner);
     const found = await repo.findById('DINNER-001');

@@ -1,12 +1,14 @@
 import { RabbitMQConsumer } from './infrastructure/messaging/rabbitmq-consumer';
 import { ConsoleNotificationSender } from './infrastructure/notifications/console-notification.sender';
+import { EtherealNotificationSender } from './infrastructure/notifications/ethereal-notification.sender';
 import { SendNotificationUseCase } from './application/use-cases/send-notification.use-case';
 
 const AMQP_URL = process.env.AMQP_URL || 'amqp://students:Ut3c2026@213.199.42.57:5672';
 
 async function main() {
-  const notificationSender = new ConsoleNotificationSender();
-  const sendNotificationUseCase = new SendNotificationUseCase(notificationSender);
+  const consoleSender = new ConsoleNotificationSender();
+  const etherealSender = new EtherealNotificationSender();
+  const sendNotificationUseCase = new SendNotificationUseCase([consoleSender, etherealSender]);
   const consumer = new RabbitMQConsumer(AMQP_URL, sendNotificationUseCase);
 
   await consumer.start();

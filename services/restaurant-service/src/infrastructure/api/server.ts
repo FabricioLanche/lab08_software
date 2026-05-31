@@ -7,6 +7,7 @@ import { RabbitMQProducer } from '../messaging/rabbitmq-producer';
 
 export async function createApp(amqpUrl?: string) {
   const app = express();
+  app.disable('x-powered-by');
   app.use(express.json());
 
   const dinnerRepository = new InMemoryDinnerRepository();

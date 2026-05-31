@@ -22,6 +22,7 @@ describe('DinnerController', () => {
     req = {
       body: {
         cardNumber: '1234567890',
+        email: 'test@example.com',
         restaurantCode: 'REST001',
         amount: 250.50,
         consumedAt: '2026-05-16T20:30:00Z',
@@ -57,5 +58,14 @@ describe('DinnerController', () => {
     await controller.registerDinner(req as Request, res as Response);
 
     expect(statusMock).toHaveBeenCalledWith(400);
+  });
+
+  it('should return 500 on use case error', async () => {
+    useCase.execute.mockRejectedValue(new Error('Unexpected error'));
+
+    await controller.registerDinner(req as Request, res as Response);
+
+    expect(statusMock).toHaveBeenCalledWith(500);
+    expect(jsonMock).toHaveBeenCalledWith({ error: 'Internal server error' });
   });
 });

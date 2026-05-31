@@ -43,4 +43,13 @@ describe('RewardController', () => {
 
     expect(statusMock).toHaveBeenCalledWith(400);
   });
+
+  it('should return 500 on use case error', async () => {
+    useCase.execute.mockRejectedValue(new Error('Unexpected error'));
+
+    await controller.getRewards(req as Request, res as Response);
+
+    expect(statusMock).toHaveBeenCalledWith(500);
+    expect(jsonMock).toHaveBeenCalledWith({ error: 'Internal server error' });
+  });
 });

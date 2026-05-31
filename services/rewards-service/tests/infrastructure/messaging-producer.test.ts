@@ -1,6 +1,6 @@
 import amqplib from 'amqplib';
 import { RabbitMQProducer } from '../../src/infrastructure/messaging/rabbitmq-producer';
-import { DinnerRegisteredEvent } from '@reward-system/shared';
+import { RewardProcessedEvent } from '@reward-system/shared';
 
 jest.mock('amqplib');
 
@@ -12,7 +12,7 @@ const mockChannel = {
 
 const mockConnect = jest.mocked(amqplib.connect);
 
-describe('RabbitMQProducer (unit)', () => {
+describe('RabbitMQProducer (rewards)', () => {
   let producer: RabbitMQProducer;
 
   beforeEach(() => {
@@ -28,43 +28,41 @@ describe('RabbitMQProducer (unit)', () => {
   });
 
   it('should throw when publishing without connection', async () => {
-    const event: DinnerRegisteredEvent = {
+    const event: RewardProcessedEvent = {
       eventId: 'test-id',
-      eventType: 'DinnerRegistered',
+      eventType: 'RewardProcessed',
       dinnerId: 'DINNER-001',
       cardNumber: '123',
       email: 'test@example.com',
-      restaurantCode: 'REST01',
-      amount: 100,
-      consumedAt: new Date().toISOString(),
-      occurredAt: new Date().toISOString(),
+      rewardType: 'POINTS',
+      rewardValue: 25,
+      processedAt: new Date().toISOString(),
     };
 
-    await expect(producer.publishDinnerRegistered(event)).rejects.toThrow('Not connected to RabbitMQ');
+    await expect(producer.publishRewardProcessed(event)).rejects.toThrow('Not connected to RabbitMQ');
   });
 
   it('should close without error when not connected', async () => {
     await expect(producer.close()).resolves.not.toThrow();
   });
 
-  it('should connect and publish dinner registered event', async () => {
+  it('should connect and publish reward processed event', async () => {
     await producer.connect();
     expect(mockConnect).toHaveBeenCalledWith('amqp://localhost');
     expect(mockChannel.assertExchange).toHaveBeenCalled();
 
-    const event: DinnerRegisteredEvent = {
+    const event: RewardProcessedEvent = {
       eventId: 'test-id',
-      eventType: 'DinnerRegistered',
+      eventType: 'RewardProcessed',
       dinnerId: 'DINNER-002',
       cardNumber: '456',
       email: 'test2@example.com',
-      restaurantCode: 'REST02',
-      amount: 200,
-      consumedAt: new Date().toISOString(),
-      occurredAt: new Date().toISOString(),
+      rewardType: 'CASHBACK',
+      rewardValue: 15,
+      processedAt: new Date().toISOString(),
     };
 
-    await producer.publishDinnerRegistered(event);
+    await producer.publishRewardProcessed(event);
     expect(mockChannel.publish).toHaveBeenCalled();
   });
 

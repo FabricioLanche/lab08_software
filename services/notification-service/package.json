@@ -6,7 +6,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts",
-    "test": "jest --coverage --forceExit",
+    "test": "jest --coverage --forceExit --silent",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
@@ -18,6 +18,7 @@
     "@types/amqplib": "^0.10.5",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.0",
+    "@types/nodemailer": "^8.0.0",
     "@types/uuid": "^10.0.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.0",

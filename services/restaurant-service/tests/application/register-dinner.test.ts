@@ -19,6 +19,7 @@ describe('RegisterDinnerUseCase', () => {
   it('should register a dinner and publish event', async () => {
     const result = await useCase.execute({
       cardNumber: '1234567890',
+      email: 'test@example.com',
       restaurantCode: 'REST001',
       amount: 250.50,
       consumedAt: '2026-05-16T20:30:00Z',
@@ -30,6 +31,7 @@ describe('RegisterDinnerUseCase', () => {
     const saved = await repository.findById(result.dinnerId);
     expect(saved).not.toBeNull();
     expect(saved!.cardNumber).toBe('1234567890');
+    expect(saved!.email).toBe('test@example.com');
 
     expect(messageBroker.publishDinnerRegistered).toHaveBeenCalledTimes(1);
     expect(messageBroker.publishDinnerRegistered).toHaveBeenCalledWith(
@@ -37,6 +39,7 @@ describe('RegisterDinnerUseCase', () => {
         eventType: 'DinnerRegistered',
         dinnerId: result.dinnerId,
         cardNumber: '1234567890',
+        email: 'test@example.com',
         amount: 250.50,
       })
     );
